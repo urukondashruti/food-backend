@@ -1,0 +1,18 @@
+### Post request
+POST http://localhost:3000/api/register
+Content-Type:application/json
+
+{
+   "username":"Tharun",
+   "gender":"Male",
+   "password":"Tharun@2024"
+}
+
+### Login Request
+POST http://localhost:3000/api/login
+Content-Type:application/json
+
+{
+    "username":"Tharun",
+    "password":"Tharun@2024"
+}
