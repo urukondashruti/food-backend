@@ -30,7 +30,7 @@ initializeDBAndServer();
 
 /*Register API*/
 app.post('/api/register/', async (request, response) => {
-    const { username, gender, password } = request.body;
+    const { username, email, password } = request.body;
 
     // Correctly hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -39,8 +39,8 @@ app.post('/api/register/', async (request, response) => {
     const dbuser = await db.get(selectUserQuery, username);
 
     if (dbuser === undefined) {
-        const createUserQuery = `INSERT INTO users (username, gender, password) VALUES (?, ?, ?)`;
-        const dbresponse = await db.run(createUserQuery, username, gender, hashedPassword);
+        const createUserQuery = `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`;
+        const dbresponse = await db.run(createUserQuery, username, email, hashedPassword);
         const newUserId = dbresponse.lastID;
         response.send(`Created new user with ID: ${newUserId}`);
     } else {
