@@ -42,9 +42,9 @@ app.post('/api/register/', async (request, response) => {
         const createUserQuery = `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`;
         const dbresponse = await db.run(createUserQuery, username, email, hashedPassword);
         const newUserId = dbresponse.lastID;
-        response.send(`Created new user with ID: ${newUserId}`);
+        response.send({ register_id:`Created new user with ID: ${newUserId}`,register_msg:"user created successfully"});
     } else {
-        response.status(400).send("User already exists");
+        response.status(400).send({register_msg:"User already exists"});
     }
 });
 /*Login API*/
@@ -54,7 +54,7 @@ app.post('/api/login/',async(request,response)=>{
     const dbuser=await db.get(selectUserQuery);
     if (dbuser===undefined){
         response.status(400);
-        response.send("Invalid user");
+        response.send({login_msg:"Invalid user"});
 
     }else{
         const isPasswordMatched=await bcrypt.compare(password,dbuser.password);
@@ -64,12 +64,11 @@ app.post('/api/login/',async(request,response)=>{
             }
             const jwtToken=jwt.sign(payload,"my_secret");
             response.send({
-                message: 'Login successful!',
                 jwtToken: jwtToken
             });
         }else{
             response.status=400;
-            response.send("Invalid Password")
+            response.send({login_msg:"Invalid Password"})
         }
     }
 });
