@@ -1,5 +1,5 @@
 ### Post request
-POST http://localhost:3000/api/register
+POST http://localhost:8000/api/register
 Content-Type:application/json
 
 {
@@ -9,10 +9,10 @@ Content-Type:application/json
 }
 
 ### Login Request
-POST http://localhost:3000/api/login
+POST http://localhost:8000/api/login
 Content-Type:application/json
 
 {
-    "username":"Tharun",
-    "password":"Tharun@2024"
+    "username":"Anusha",
+    "password":"anusha@2024"
 }

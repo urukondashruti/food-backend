@@ -19,8 +19,8 @@ const initializeDBAndServer = async () => {
       filename: dbpath,
       driver: sqlite3.Database,
     });
-    app.listen(3000, () => {
-      console.log("Server running at http://localhost:3000/");
+    app.listen(8000, () => {
+      console.log("Server running at http://localhost:8000/");
     });
   } catch (e) {
     console.log(`DB Error: ${e.message}`);
@@ -36,11 +36,11 @@ app.post('/api/register/', async (request, response) => {
   // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const selectUserQuery = `SELECT * FROM users WHERE username = ?`;
+  const selectUserQuery = `SELECT * FROM users_lists WHERE username = ?`;
   const dbuser = await db.get(selectUserQuery, username);
 
   if (dbuser === undefined) {
-    const createUserQuery = `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`;
+    const createUserQuery = `INSERT INTO users_lists (username, email, password) VALUES (?, ?, ?)`;
     const dbresponse = await db.run(createUserQuery, username, email, hashedPassword);
     const newUserId = dbresponse.lastID;
     response.send({ register_id: `Created new user with ID: ${newUserId}`, register_msg: "User created successfully" });
@@ -54,7 +54,7 @@ app.post('/api/login/', async (request, response) => {
   const { username, password } = request.body;
 
   // Use parameterized query to avoid SQL injection
-  const selectUserQuery = `SELECT * FROM users WHERE username = ?`;
+  const selectUserQuery = `SELECT * FROM users_lists WHERE username = ?`;
   const dbuser = await db.get(selectUserQuery, username);
 
   if (dbuser === undefined) {
